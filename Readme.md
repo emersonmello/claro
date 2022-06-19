@@ -6,7 +6,7 @@
 **claro** is a [GitHub Classroom](https://classroom.github.com) CLI for teachers
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/emersonmello/claro)](https://goreportcard.com/report/github.com/emersonmello/claro)
 # Overview
 
 **claro** (**cla**ss**ro**om) is a cli tool that offers a simple interface that allows the teacher to clone all student repositories at once for grading and then send grades at once to all these repositories.
