@@ -1,7 +1,3 @@
-/*
-Copyright © 2022  Emerson Mello
-
-*/
 package cmd
 
 import (

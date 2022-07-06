@@ -1,3 +1,6 @@
+// A set of utility functions to handle with user's github personal access token
+//
+// The user's GitHub Personal Access Token could be stored in operating system keyring, environment var or claro's config file (default $HOME/.claro.env)
 package utils
 
 import (
@@ -14,12 +17,12 @@ import (
 const service = "a github classroom cli"
 const user = "claro"
 
-// Delete password from os keyring
+// Delete user's github personal access token from operating system keyring
 func DeletePasswordItem() error {
 	return keyring.Delete(service, user)
 }
 
-// Store a password in os keyring
+// Store a user's github personal access token in operating system keyring
 func CreateKey(password string, removeIfExist bool) error {
 	if removeIfExist {
 		DeletePasswordItem()
@@ -27,13 +30,13 @@ func CreateKey(password string, removeIfExist bool) error {
 	return keyring.Set(service, user, password)
 }
 
-// Get the password from os keyring
+// Get the user's github personal access token from operating system keyring
 func GetPassword() (string, error) {
 	secret, err := keyring.Get(service, user)
 	return secret, err
 }
 
-// trying to get the github personal access token
+// To get user's github personal access token
 func GetAndSaveToken(save bool) string {
 
 	// form operating system keyring
@@ -60,7 +63,7 @@ func GetAndSaveToken(save bool) string {
 	return ghToken
 }
 
-// Ask user about gh token
+// Ask user about github personal access token
 func ReadTokenFromStdIn() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Inform your github personal access token: ")
@@ -69,7 +72,7 @@ func ReadTokenFromStdIn() string {
 	return strings.Replace(text, "\n", "", -1)
 }
 
-// try to save the gh token: (1) os keyring; (2) claro config file
+//Ttry to save the github personal access token: (1) os keyring; (2) claro config file
 func SaveGHToken(ghToken string) {
 	tokenKC, err := GetPassword()
 	if tokenKC != "" {

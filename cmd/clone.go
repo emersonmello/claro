@@ -43,7 +43,7 @@ var cloneCmd = &cobra.Command{
 			os.Exit(0)
 		}
 
-		s, _ := pterm.DefaultSpinner.Start("Creating " + OutputDir + " directory")
+		s, _ := pterm.DefaultSpinner.Start("Create " + OutputDir + " directory")
 		if e := os.Mkdir(OutputDir, os.ModePerm); e != nil {
 			OutputDir = ""
 			s.Fail(e.Error())
@@ -56,7 +56,7 @@ var cloneCmd = &cobra.Command{
 		e := os.Chdir(OutputDir)
 		checkError(e)
 
-		s, _ = pterm.DefaultSpinner.Start("Creating Markdown files")
+		s, _ = pterm.DefaultSpinner.Start("Create Markdown files")
 		for _, r := range repositories {
 			f, e := os.Create("grade-" + r.Name + ".md")
 			if e != nil {

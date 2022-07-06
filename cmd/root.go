@@ -1,7 +1,3 @@
-/*
-Copyright © 2022  Emerson Mello
-
-*/
 package cmd
 
 import (
@@ -18,7 +14,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:     "claro",
 		Short:   "A GitHub Classroom CLI for teachers",
-		Version: "0.1.0",
+		Version: "0.1.1",
 	}
 )
 
