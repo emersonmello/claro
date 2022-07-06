@@ -1,3 +1,4 @@
+// A set of utility functions to handle with git command
 package utils
 
 import (
@@ -40,7 +41,7 @@ func CloneRepositories(outputDir string, repositories []RepData) ([]string, []st
 func AddAndCommitGradeFile(filename, repositoryDir string, p *pterm.ProgressbarPrinter) {
 	gradeFileName := viper.GetString("grade_filename")
 
-	p.UpdateTitle("Pushing '" + gradeFileName + "' to " + repositoryDir)
+	p.UpdateTitle("Push '" + gradeFileName + "' to " + repositoryDir)
 	if src, err := os.Open(filename); err == nil {
 		defer src.Close()
 		if err := os.Chdir(repositoryDir); err == nil {
@@ -50,8 +51,9 @@ func AddAndCommitGradeFile(filename, repositoryDir string, p *pterm.ProgressbarP
 					execGitCommands("reset")
 					execGitCommands("add", gradeFileName)
 					if o, err := execGitCommands("commit", "-m", viper.GetString("commit_message")); err == nil {
+						execGitCommands("pull", "--rebase")
 						execGitCommands("push")
-						pterm.Success.Println("Pushing '" + gradeFileName + "' to " + repositoryDir)
+						pterm.Success.Println("Push '" + gradeFileName + "' to " + repositoryDir)
 					} else {
 						pterm.Warning.Println(repositoryDir + " has a problem!")
 						fmt.Println(string(o))
