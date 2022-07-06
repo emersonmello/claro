@@ -1,3 +1,4 @@
+// A set of utility functions to handle with GitHub REST API
 package utils
 
 import (
@@ -5,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v45/github"
 	"github.com/pterm/pterm"
 	"golang.org/x/oauth2"
 )
@@ -45,9 +46,14 @@ func getRepoOrg(ghToken string, org string, repoPrefix string) ([]RepData, *gith
 	lastPage := int(^uint(0) >> 1)
 
 	for nextPage <= lastPage {
-		page := github.ListOptions{Page: nextPage}
+		page := github.ListOptions{
+			Page:    nextPage,
+			PerPage: 100,
+		}
 		repoOpts := github.RepositoryListByOrgOptions{
 			Type:        "all",
+			Sort:        "full_name",
+			Direction:   "desc",
 			ListOptions: page,
 		}
 		// lists the repositories for an organization
