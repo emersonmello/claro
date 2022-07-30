@@ -86,8 +86,8 @@ func Pull(files []fs.DirEntry, directory string) {
 	p.Start()
 	for _, f := range files {
 		if f.IsDir() {
-			p.UpdateTitle("Pulling " + f.Name())
-			execGitCommands("reset")
+			p.UpdateTitle("Pull " + f.Name())
+			execGitCommands("stash")
 			cmd := exec.Command("git", "pull", "--rebase")
 			cmd.Dir = f.Name()
 			_, err := cmd.CombinedOutput()
@@ -95,7 +95,8 @@ func Pull(files []fs.DirEntry, directory string) {
 				pterm.Error.Println(f.Name() + " is not clean!")
 				pterm.Info.Println(e.Error())
 			} else {
-				pterm.Success.Println("Pulling " + f.Name())
+				execGitCommands("stash", "pop")
+				pterm.Success.Println("Pull " + f.Name())
 			}
 		}
 	}

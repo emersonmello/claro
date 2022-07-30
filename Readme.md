@@ -7,6 +7,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/emersonmello/claro)](https://goreportcard.com/report/github.com/emersonmello/claro)
+[![Plataform](https://img.shields.io/badge/Download%20binaries%20for-Linux%20%7C%20macOS-lightgrey)](https://github.com/emersonmello/claro/releases/latest)
 # Overview
 
 **claro** (**cla**ss**ro**om) is a cli tool that offers a simple interface that allows the teacher to clone all student repositories at once for grading and then send grades at once to all these repositories.
@@ -31,17 +32,6 @@
 - [Git credential store](https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage) configured properly
   - See [section below](#authenticating-with-git-command-line-to-access-repositories-on-github)
 
-## Download
-
-- [Download Binaries for different platforms](https://github.com/emersonmello/claro/releases/latest)
-  - macOS
-    - darwin-amd64
-    - darwin-arm64
-  - Linux
-    - linux-386
-    - linux-amd64
-    - linux-arm64
-  
 
 ## Usage
 

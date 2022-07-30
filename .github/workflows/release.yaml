@@ -1,3 +1,4 @@
+name: Compiling 
 on:
   release:
     types: [created]
