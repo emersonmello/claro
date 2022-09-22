@@ -87,16 +87,23 @@ func Pull(files []fs.DirEntry, directory string) {
 	for _, f := range files {
 		if f.IsDir() {
 			p.UpdateTitle("Pull " + f.Name())
-			execGitCommands("stash")
-			cmd := exec.Command("git", "pull", "--rebase")
+			cmd := exec.Command("git", "stash", "--include-untracked")
 			cmd.Dir = f.Name()
-			_, err := cmd.CombinedOutput()
+			err := cmd.Run()
 			if err != nil {
-				pterm.Error.Println(f.Name() + " is not clean!")
-				pterm.Info.Println(e.Error())
+				pterm.Error.Println("Could not run git stash command. Is the '" + f.Name() + "' directory a git repository?")
 			} else {
-				execGitCommands("stash", "pop")
-				pterm.Success.Println("Pull " + f.Name())
+				cmd = exec.Command("git", "pull", "--rebase")
+				cmd.Dir = f.Name()
+				err = cmd.Run()
+				if err != nil {
+					pterm.Error.Println(f.Name() + " is not clean!")
+				} else {
+					cmd := exec.Command("git", "stash", "pop")
+					cmd.Dir = f.Name()
+					_ = cmd.Run()
+					pterm.Success.Println("Pull " + f.Name())
+				}
 			}
 		}
 	}

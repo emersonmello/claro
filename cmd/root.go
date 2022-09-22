@@ -14,7 +14,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:     "claro",
 		Short:   "A GitHub Classroom CLI for teachers",
-		Version: "0.1.1",
+		Version: "0.1.2",
 	}
 )
 
