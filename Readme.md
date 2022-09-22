@@ -7,7 +7,8 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/emersonmello/claro)](https://goreportcard.com/report/github.com/emersonmello/claro)
-[![Plataform](https://img.shields.io/badge/Download%20binaries%20for-Linux%20%7C%20macOS-lightgrey)](https://github.com/emersonmello/claro/releases/latest)
+[![Compiling](https://github.com/emersonmello/claro/actions/workflows/release.yaml/badge.svg)](https://github.com/emersonmello/claro/actions/workflows/release.yaml)
+[![Plataform](https://img.shields.io/badge/Download%20binaries%20for-Linux%20%7C%20macOS-lightgreen)](https://github.com/emersonmello/claro/releases/latest)
 # Overview
 
 **claro** (**cla**ss**ro**om) is a cli tool that offers a simple interface that allows the teacher to clone all student repositories at once for grading and then send grades at once to all these repositories.

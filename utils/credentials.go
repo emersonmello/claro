@@ -72,7 +72,7 @@ func ReadTokenFromStdIn() string {
 	return strings.Replace(text, "\n", "", -1)
 }
 
-//Ttry to save the github personal access token: (1) os keyring; (2) claro config file
+// Try to save the github personal access token: (1) os keyring; (2) claro config file
 func SaveGHToken(ghToken string) {
 	tokenKC, err := GetPassword()
 	if tokenKC != "" {
