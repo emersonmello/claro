@@ -21,7 +21,6 @@ func CloneRepositories(outputDir string, repositories []RepData) ([]string, []st
 	p, _ := pterm.DefaultProgressbar.WithTotal(len(repositories)).WithRemoveWhenDone(true).WithTitle("Cloning students repositories").Start()
 
 	for _, r := range repositories {
-
 		p.UpdateTitle("Cloning " + r.Name + " ")
 		cmd := exec.Command("git", "clone", r.Url)
 		cmd.Dir = outputDir
@@ -48,15 +47,27 @@ func AddAndCommitGradeFile(filename, repositoryDir string, p *pterm.ProgressbarP
 			if dst, err := os.Create(gradeFileName); err == nil {
 				defer dst.Close()
 				if _, err = io.Copy(dst, src); err == nil {
-					execGitCommands("reset")
-					execGitCommands("add", gradeFileName)
-					if o, err := execGitCommands("commit", "-m", viper.GetString("commit_message")); err == nil {
-						execGitCommands("pull", "--rebase")
-						execGitCommands("push")
-						pterm.Success.Println("Push '" + gradeFileName + "' to " + repositoryDir)
+
+					exec.Command("git", "reset").Run()
+					exec.Command("git", "add", gradeFileName).Run()
+
+					if o, _ := exec.Command("git", "status", "--porcelain").CombinedOutput(); string(o) == "" {
+						pterm.Warning.Println(repositoryDir + ": nothing to commit, working tree clean")
 					} else {
-						pterm.Warning.Println(repositoryDir + " has a problem!")
-						fmt.Println(string(o))
+
+						if e := exec.Command("git", "commit", "-m", viper.GetString("commit_message")).Run(); e == nil {
+							if e := exec.Command("git", "pull", "--rebase").Run(); e != nil {
+								pterm.Error.Println(repositoryDir + ": could not execute git pull")
+							} else {
+								if e := exec.Command("git", "push", "--porcelain").Run(); e != nil {
+									pterm.Error.Println(repositoryDir + ": could not execute git push")
+								} else {
+									pterm.Success.Println("Push '" + gradeFileName + "' to " + repositoryDir)
+								}
+							}
+						} else {
+							pterm.Error.Println(repositoryDir + ": could not execute git commit")
+						}
 					}
 				} else {
 					pterm.Error.Println("Could not copy the file: " + filename + " to " + repositoryDir + "/" + gradeFileName)
@@ -71,7 +82,6 @@ func AddAndCommitGradeFile(filename, repositoryDir string, p *pterm.ProgressbarP
 	} else {
 		pterm.Error.Println("Could not open the file: " + filename)
 	}
-	p.UpdateTitle("")
 }
 
 // To pull all GitHub repositories inside a specific local directory
@@ -107,13 +117,7 @@ func Pull(files []fs.DirEntry, directory string) {
 			}
 		}
 	}
-	p.Stop()
-}
-
-// A wrapper to execute an external command - git
-func execGitCommands(pars ...string) ([]byte, error) {
-	cmd := exec.Command("git", pars...)
-	return cmd.CombinedOutput()
+	fmt.Println()
 }
 
 // check error

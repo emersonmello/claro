@@ -89,7 +89,7 @@ var pushCmd = &cobra.Command{
 				utils.AddAndCommitGradeFile(gradeFile.Name(), repo, p)
 			}
 		}
-		p.Stop()
+		fmt.Println()
 	},
 }
 
