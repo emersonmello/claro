@@ -2,6 +2,7 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"io/fs"
@@ -94,6 +95,10 @@ func Pull(files []fs.DirEntry, directory string) {
 	p.ShowCount = false
 	p.ShowElapsedTime = false
 	p.Start()
+
+	previousPrefix := pterm.Success.Prefix
+	newCommitPrefix := pterm.Prefix{Text: "NEW COMMITS", Style: pterm.NewStyle(pterm.BgLightYellow, pterm.FgBlack)}
+
 	for _, f := range files {
 		if f.IsDir() {
 			p.UpdateTitle("Pull " + f.Name())
@@ -103,16 +108,26 @@ func Pull(files []fs.DirEntry, directory string) {
 			if err != nil {
 				pterm.Error.Println("Could not run git stash command. Is the '" + f.Name() + "' directory a git repository?")
 			} else {
+				cmd = exec.Command("git", "rev-list", "--all", "--count")
+				cmd.Dir = f.Name()
+				totalCommitsBeforePull, _ := cmd.Output()
 				cmd = exec.Command("git", "pull", "--rebase")
 				cmd.Dir = f.Name()
 				err = cmd.Run()
 				if err != nil {
 					pterm.Error.Println(f.Name() + " is not clean!")
 				} else {
+					cmd = exec.Command("git", "rev-list", "--all", "--count")
+					cmd.Dir = f.Name()
+					totalCommitsAfterPull, _ := cmd.Output()
 					cmd := exec.Command("git", "stash", "pop")
 					cmd.Dir = f.Name()
 					_ = cmd.Run()
+					if !bytes.Equal(totalCommitsAfterPull, totalCommitsBeforePull) {
+						pterm.Success.Prefix = newCommitPrefix
+					}
 					pterm.Success.Println("Pull " + f.Name())
+					pterm.Success.Prefix = previousPrefix
 				}
 			}
 		}
