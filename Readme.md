@@ -41,14 +41,17 @@
 1. Create a Github Classroom assignment with a distinguish repository prefix 
    - Example: `2022-01-assignment-01`
 2. Clone all repositories from a Github Classroom organization with a specific assignment prefix
+   - Example: `claro clone github-organization 2022-01-assignment-01`
 
     ![cloning](images/clone.gif)
 
 3. Grade each student's work and write down the feedback in the respective Markdown file
+   - Tip: Use your best Markdown editor for this
 
     ![grading](images/grading.gif)
 
 4. Push the grading
+   - Example: `claro push 2022-01-assignment-01`
 
     ![pushing](images/push.gif)
 
