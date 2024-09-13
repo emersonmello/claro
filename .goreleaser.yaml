@@ -1,0 +1,39 @@
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - freebsd
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+      - arm
+      - "386"
+    goarm:
+      - 6
+      - 7
+    ldflags:
+      - -s -w
+      - -X github.com/emersonmello/claro/cmd.Version={{.Version}}
+      - -X github.com/emersonmello/claro/cmd.Commit={{.Commit}}
+      - -X github.com/emersonmello/claro/cmd.Date={{.CommitDate}}
+
+archives:
+  - format: binary
+    name_template: "{{ .Os }}-{{ .Arch }}"
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
