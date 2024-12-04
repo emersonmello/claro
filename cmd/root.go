@@ -26,7 +26,7 @@ import (
 var cfgFile string
 var pathConfigFile string
 
-var version = "1.0.0"
+var version = "1.0.1"
 
 // Print program version
 func programVersion() string {
