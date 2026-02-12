@@ -6,6 +6,8 @@ on:
 jobs:
   releases-matrix:
     name: Release Go Binary
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
